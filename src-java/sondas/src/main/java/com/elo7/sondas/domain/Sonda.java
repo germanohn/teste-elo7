@@ -4,10 +4,12 @@ import java.util.TreeMap;
 
 public class Sonda {
     private int x, y;
-    private int direction;
+    private char direction;
 
-    public static final TreeMap<Character, Integer> number_of_direction = new TreeMap<>();
-    public static final TreeMap<Integer, Character> symbol_of_direction = new TreeMap<>();
+    public static final TreeMap<Character, Integer> number_of_direction =
+            new TreeMap<>();
+    public static final TreeMap<Integer, Character> symbol_of_direction =
+            new TreeMap<>();
     public static final TreeMap<Character, Integer> rotation = new TreeMap<>();
     public static final int[] dx = {0, 1, 0, -1}; // N, E, S, W
     public static final int[] dy = {1, 0, -1, 0}; // N, E, S, W
@@ -33,7 +35,7 @@ public class Sonda {
     public Sonda(int x, int y, char direction) {
         this.x = x;
         this.y = y;
-        this.direction = number_of_direction.get(direction);
+        this.direction = direction;
     }
 
     // Getters
@@ -45,20 +47,22 @@ public class Sonda {
         return y;
     }
 
-    public int getDirection() {
+    public char getDirection() {
         return direction;
     }
 
-    // Receive a instruction ('L': rotate 90° left, 'R': rotate 90° right, or 'M': move)
-    // and change the "sonda" position accordingly
+    // Receive a instruction ('L': rotate 90° left, 'R': rotate 90° right,
+    // or 'M': move) and change the "sonda" position accordingly
     public void move(char instruction) {
         if (instruction == 'L' || instruction == 'R') {
             final int MOD = 4;
-            direction = (direction + rotation.get(instruction) + MOD) % MOD;
+            int number_new_direction = (number_of_direction.get(direction) +
+                                        rotation.get(instruction) + MOD) % MOD;
+            direction = symbol_of_direction.get(number_new_direction);
         } else { // instruction == 'M'
             if (sonda_valid_move(this)) {
-                x += dx[direction];
-                y += dy[direction];
+                x += dx[number_of_direction.get(direction)];
+                y += dy[number_of_direction.get(direction)];
             }
         }
     }
@@ -67,7 +71,7 @@ public class Sonda {
         /*int x = sonda.getX();
         int y = sonda.getY();
         int direction = sonda.getDirection();*/
-        System.out.println(x + " " + y + " " + symbol_of_direction.get(direction));
+        System.out.println(x + " " + y + " " + direction);
     }
 
     // auxiliary functions
@@ -80,7 +84,9 @@ public class Sonda {
     }
 
     private boolean sonda_valid_move(Sonda sonda) {
-        return valid_x(sonda.getX() + dx[sonda.getDirection()]) && valid_y(sonda.getY() +
-                dy[sonda.getDirection()]);
+        return valid_x(sonda.getX() +
+                dx[number_of_direction.get(sonda.getDirection())]) &&
+               valid_y(sonda.getY() +
+                dy[number_of_direction.get(sonda.getDirection())]);
     }
 }
