@@ -19,7 +19,7 @@ public class SondasController {
     @PostMapping("/planalto")
     public String post(@RequestParam("max_x") int max_x,
                        @RequestParam("max_y") int max_y) {
-        service.save(max_x, max_y);
+        service.setPlanalto(max_x, max_y);
 
         return "Planalto salvo com sucesso";
     }
