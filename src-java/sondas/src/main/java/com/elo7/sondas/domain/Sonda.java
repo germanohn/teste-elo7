@@ -76,11 +76,11 @@ public class Sonda {
 
     // auxiliary functions
     private boolean valid_x(int x) {
-        return x >= 0 && x <= Main.max_x;
+        return x >= 0 && x <= Planalto.max_x;
     }
 
     private boolean valid_y(int y) {
-        return y >= 0 && y <= Main.max_y;
+        return y >= 0 && y <= Planalto.max_y;
     }
 
     private boolean sonda_valid_move(Sonda sonda) {

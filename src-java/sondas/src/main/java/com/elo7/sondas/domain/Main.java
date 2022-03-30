@@ -3,13 +3,11 @@ package com.elo7.sondas.domain;
 import java.util.Scanner;
 
 public class Main {
-    public static int max_x;
-    public static int max_y;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        max_x = scanner.nextInt();
-        max_y = scanner.nextInt();
+        Planalto.max_x = scanner.nextInt();
+        Planalto.max_y = scanner.nextInt();
 
         // System.out.println("max_x " + max_x + " max_y " + max_y);
 
