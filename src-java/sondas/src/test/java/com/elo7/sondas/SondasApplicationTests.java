@@ -11,24 +11,34 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * Class to perform unitary tests on methods of class SondaService.
+ */
 @SpringBootTest
 class SondasApplicationTests {
 
 	private SondaService service = new SondaService();
 
+	/**
+	 * Tests the setting of the maximum x and y coordinates of the Planalto.
+	 */
 	@Test
-	public void testSavePlanalto() {
+	public void testSetPlanalto() {
 		int max_x = 10;
 		int max_y = 10;
 
 		service.setPlanalto(max_x, max_y);
 
-		// Verifica que coordenada do ponto superior-direito da malha do
-		// planalto foi assinalada corretamente
+		// Verifies that the maximum x-coordinate of the Planalto is corret.
 		assertEquals(max_x, Planalto.max_x);
+		// Verifies that the maximum y-coordinate of the Planalto is corret.
 		assertEquals(max_y, Planalto.max_y);
 	}
 
+	/**
+	 * Tests that indeed a sonda object is added to the list sondas when the
+	 * method save of SondaService is used.
+	 */
 	@Test
 	public void testSaveSonda() {
 		Sonda sonda = new Sonda(0, 0, 'N');
@@ -36,14 +46,18 @@ class SondasApplicationTests {
 
 		Sonda s = service.save(sonda, instructions);
 
-		// Verifica que foi retornado um objeto
+		// Verifies that an object was returned
 		assertNotNull(s);
 
-		// Verifica se a sonda foi adicionada
+		// Verifies if the sonda was added in the list sondas
 		List<Sonda> sondas = service.getSondas();
 		assertTrue(sondas.contains(s));
 	}
 
+	/**
+	 * Tests if the instructions were correctly performed in the Sonda object
+	 * when using method save of SondaService
+	 */
 	@Test
 	public void test1Instructions() {
 		Sonda sonda = new Sonda(1, 2, 'N');
@@ -51,11 +65,15 @@ class SondasApplicationTests {
 
 		Sonda s = service.save(sonda, instructions);
 
-		// Verifica a posição final da sonda após as instruções
+		// Verifies the final position of the sonda after the instructions
 		assertEquals("1 3 N",
 				s.getX() + " " + s.getY() + " " + s.getDirection());
 	}
 
+	/**
+	 * Tests if the instructions were correctly performed in the Sonda object
+	 * when using method save of SondaService
+	 */
 	@Test
 	public void test2Instructions() {
 		Sonda sonda = new Sonda(3, 3, 'E');
@@ -63,7 +81,6 @@ class SondasApplicationTests {
 
 		Sonda s = service.save(sonda, instructions);
 
-		// Verifica a posição final da sonda após as instruções
 		assertEquals("5 1 E",
 				s.getX() + " " + s.getY() + " " + s.getDirection());
 	}

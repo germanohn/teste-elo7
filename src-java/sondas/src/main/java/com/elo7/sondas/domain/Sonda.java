@@ -9,9 +9,6 @@ import java.util.TreeMap;
  * It implements the three basic movements of such object: to move a Sonda
  * object either to the left or to the right by 90°, or to move one unit, on
  * the plateau where it lies, in the cardinal direction in which it points.
- *
- * @author Germano HN
- * @version 1.0
  */
 public class Sonda {
     private int x, y;
