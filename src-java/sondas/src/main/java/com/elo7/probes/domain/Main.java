@@ -1,4 +1,4 @@
-package com.elo7.sondas.domain;
+package com.elo7.probes.domain;
 
 import java.util.Scanner;
 
@@ -16,22 +16,26 @@ public class Main {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Planalto.max_x = scanner.nextInt();
-        Planalto.max_y = scanner.nextInt();
+        int maxX = scanner.nextInt();
+        int maxY = scanner.nextInt();
+        Plateau plateau = new Plateau(maxX, maxY);
 
         while (scanner.hasNext()) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-            char direction = scanner.next().charAt(0);
-            Sonda sonda = new Sonda(x, y, direction);
+            String direction = scanner.next();
+            Probe probe = new Probe(new OrientedPosition(
+                    new Position(x, y), Direction.valueOf(direction)));
 
             scanner.nextLine();
             String instructions = scanner.nextLine();
-            for (char instruction : instructions.toCharArray()) {
-                sonda.move(instruction);
+            for (int i = 0; i < instructions.length(); i++) {
+                probe.move(plateau, Instruction.valueOf(
+                        instructions.substring(i, i + 1)));
             }
 
-            sonda.print_position();
+            probe.printProbe();
+            System.out.println();
         }
     }
 }

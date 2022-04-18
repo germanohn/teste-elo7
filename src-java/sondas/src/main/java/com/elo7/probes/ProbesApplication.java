@@ -1,4 +1,4 @@
-package com.elo7.sondas;
+package com.elo7.probes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Class to run the Spring Boot Application
  */
 @SpringBootApplication
-public class SondasApplication {
+public class ProbesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SondasApplication.class, args);
+		SpringApplication.run(ProbesApplication.class, args);
 	}
 }

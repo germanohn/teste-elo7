@@ -1,4 +1,4 @@
-package com.elo7.sondas.api;
+package com.elo7.probes.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
