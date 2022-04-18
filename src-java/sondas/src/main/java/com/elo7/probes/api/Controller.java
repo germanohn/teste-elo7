@@ -2,8 +2,8 @@ package com.elo7.probes.api;
 
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
-import com.elo7.probes.domain.ProbeRegister;
-import com.elo7.probes.domain.Service;
+import com.elo7.probes.service.Service;
+import com.elo7.probes.service.ServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,16 +11,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class Controller {
-    private Service service = new Service();
+    private Service service = new ServiceImpl();
 
     @GetMapping("/probes")
-    public List<Probe> get() { return service.getProbes(); }
+    public List<Probe> findAllProbes() {
+        return service.findAllProbes();
+    }
 
-    @PostMapping("/plateau")
-    public void post(@RequestBody Plateau plateau) {
-        service.setPlateau(plateau);
+    @GetMapping("/probes/{probeId}")
+    public Probe getProbe(@RequestBody int probeId) {
+        return service.findProbeById(probeId);
+    }
 
-        System.out.println("Plateau saved successfully");
+    @GetMapping("/plateau")
+    public Plateau getPlateau() {
+        return service.findPlateau();
     }
 
     @PostMapping("/probes")
@@ -32,8 +37,10 @@ public class Controller {
         service.save(probe);
     }
 
-    @PostMapping("/probesplusinstructions")
-    public void post(@RequestBody ProbeRegister probeRegister) {
-        service.save(probeRegister.getProbe(), probeRegister.getInstructions());
+    @PostMapping("/plateau")
+    public void post(@RequestBody Plateau plateau) {
+        service.save(plateau);
+
+        System.out.println("Plateau saved successfully");
     }
 }
