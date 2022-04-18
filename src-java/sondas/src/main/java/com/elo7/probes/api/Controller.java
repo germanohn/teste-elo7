@@ -3,15 +3,15 @@ package com.elo7.probes.api;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.domain.ProbeRegister;
-import com.elo7.probes.domain.ProbeService;
+import com.elo7.probes.domain.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ProbesController {
-    private ProbeService service = new ProbeService();
+public class Controller {
+    private Service service = new Service();
 
     @GetMapping("/probes")
     public List<Probe> get() { return service.getProbes(); }

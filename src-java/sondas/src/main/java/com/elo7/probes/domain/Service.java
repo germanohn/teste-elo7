@@ -7,7 +7,7 @@ import java.util.List;
  * Class to keep, retrieve, and update the list of Probe objects, and to set
  * the plateau properties.
  */
-public class ProbeService {
+public class Service {
     private List<Probe> probes = new ArrayList<>();
     private Plateau plateau = new Plateau();
 
