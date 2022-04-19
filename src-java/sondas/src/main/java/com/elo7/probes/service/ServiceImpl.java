@@ -4,10 +4,7 @@ import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
@@ -15,7 +12,7 @@ import java.util.TreeMap;
  */
 public class ServiceImpl implements Service {
     private Map<Integer, Probe> probes;
-    private Plateau plateau;
+    private Plateau plateau; // default is null
     private int freeId;
 
     public ServiceImpl() {
@@ -32,13 +29,13 @@ public class ServiceImpl implements Service {
      */
     @Override
     public List<Probe> findAllProbes() {
-        return probes;
+        return new ArrayList<>(probes.values());
     }
 
     @Override
     public Probe findProbeById(int probeId) {
         // TODO: Add exception for the case that probeId probe does not exist
-        return null;
+        return probes.get(probeId);
     }
 
     @Override
@@ -55,6 +52,8 @@ public class ServiceImpl implements Service {
      */
     @Override
     public void save(Probe probe) {
+        // TODO: Add exception for being unable to land since the space is not
+        //  free
         String instructions = "MM";
 
         for (int i = 0; i < instructions.length(); i++) {
@@ -63,28 +62,39 @@ public class ServiceImpl implements Service {
                     instructions.substring(i, i + 1)));
         }
 
-        probes.add(probe);
+        if (probe.getId() == 0) { // Post
+            probe.setId(freeId);
+            probes.put(freeId++, probe);
+        } else { // Put
+            probes.put(probe.getId(), probe);
+        }
     }
 
     @Override
     public void save(Plateau plateau) {
         // TODO: Need to check if it won't have probes outside it; in this
-        // case, it should throw an error
+        //  case, it should throw an error
         this.plateau = plateau;
     }
 
     @Override
     public void deleteProbe(int probeId) {
-
+        // TODO: Add exception for non-existence of probe with probeId in
+        //  probes
+        probes.remove(probeId);
     }
 
     @Override
     public void deleteAllProbes() {
-
+        // TODO: Add exception for empty probes
+        // TODO: It has to update the maximum coordinates of probes seen in
+        //  the current so far
+        probes.clear();
     }
 
     @Override
     public void deletePlateau() {
-
+        // TODO: Add exception when plateau was not set yet
+        plateau = null;
     }
 }

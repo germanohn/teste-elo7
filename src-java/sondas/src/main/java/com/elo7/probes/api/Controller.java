@@ -19,7 +19,7 @@ public class Controller {
     }
 
     @GetMapping("/probes/{probeId}")
-    public Probe getProbe(@RequestBody int probeId) {
+    public Probe getProbe(@PathVariable int probeId) {
         return service.findProbeById(probeId);
     }
 
@@ -42,5 +42,20 @@ public class Controller {
         service.save(plateau);
 
         System.out.println("Plateau saved successfully");
+    }
+
+    @DeleteMapping("/probes/{probeId}")
+    public void deleteProbe(@PathVariable int probeId) {
+        service.deleteProbe(probeId);
+    }
+
+    @DeleteMapping("/probes")
+    public void deleteAllProbes() {
+        service.deleteAllProbes();
+    }
+
+    @DeleteMapping("/plateau")
+    public void deletePlateau() {
+        service.deletePlateau();
     }
 }
