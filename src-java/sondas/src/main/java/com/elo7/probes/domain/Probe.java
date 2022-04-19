@@ -11,17 +11,33 @@ import org.apache.commons.lang3.EnumUtils;
  * the plateau where it lies, in the cardinal direction in which it points.
  */
 public class Probe {
+    private int id;
     private OrientedPosition orientedPosition;
 
     /**
      * Default class constructor
      */
     public Probe() {
+        this.id = 0;
         this.orientedPosition = new OrientedPosition();
     }
 
     public Probe(OrientedPosition orientedPosition) {
+        this.id = 0;
         this.orientedPosition = orientedPosition;
+    }
+
+    public Probe(int id, OrientedPosition orientedPosition) {
+        this.id = id;
+        this.orientedPosition = orientedPosition;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

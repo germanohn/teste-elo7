@@ -20,6 +20,7 @@ public class Controller {
 
     @GetMapping("/probes/{probeId}")
     public Probe getProbe(@PathVariable int probeId) {
+        // TODO: if returned probe is null, throw an exception
         return service.findProbeById(probeId);
     }
 
@@ -29,19 +30,43 @@ public class Controller {
     }
 
     @PostMapping("/probes")
-    public void post(@RequestBody Probe probe) {
+    public Probe post(@RequestBody Probe probe) {
         System.out.println("Receive Probe:");
         probe.printProbe();
         System.out.println();
 
         service.save(probe);
+
+        return probe;
+    }
+
+    @PutMapping("/probes")
+    public Probe put(@RequestBody Probe probe) {
+        System.out.println("Receive Probe:");
+        probe.printProbe();
+        System.out.println();
+
+        service.save(probe);
+
+        return probe;
     }
 
     @PostMapping("/plateau")
-    public void post(@RequestBody Plateau plateau) {
+    public Plateau post(@RequestBody Plateau plateau) {
         service.save(plateau);
 
         System.out.println("Plateau saved successfully");
+
+        return plateau;
+    }
+
+    @PutMapping("/plateau")
+    public Plateau put(@RequestBody Plateau plateau) {
+        service.save(plateau);
+
+        System.out.println("Plateau saved successfully");
+
+        return plateau;
     }
 
     @DeleteMapping("/probes/{probeId}")

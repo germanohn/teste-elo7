@@ -1,10 +1,12 @@
 package com.elo7.probes.service;
 
-import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
@@ -53,16 +55,20 @@ public class ServiceImpl implements Service {
     @Override
     public void save(Probe probe) {
         // TODO: Add exception for being unable to land since the space is not
-        //  free
+        //  free, or it is outside of current Plateau, or Plateau is not set yet
+        //  TODO: Change the default constructor of plateau to be a null object,
+        //      and then change the save method for plateau to check if the object
+        //      is null
+        /*
         String instructions = "MM";
 
         for (int i = 0; i < instructions.length(); i++) {
             System.out.println("Current instruction " + instructions.substring(i, i + 1));
             probe.move(this.plateau, Instruction.valueOf(
                     instructions.substring(i, i + 1)));
-        }
+        }*/
 
-        if (probe.getId() == 0) { // Post
+        if (probe.getId() == 0) { // Post since default probeId is always 0
             probe.setId(freeId);
             probes.put(freeId++, probe);
         } else { // Put
