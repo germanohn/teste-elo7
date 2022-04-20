@@ -6,7 +6,7 @@ import com.elo7.probes.service.Service;
 import com.elo7.probes.service.ServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/api")
@@ -14,13 +14,15 @@ public class Controller {
     private Service service = new ServiceImpl();
 
     @GetMapping("/probes")
-    public List<Probe> findAllProbes() {
+    public Collection<Probe> findAllProbes() {
         return service.findAllProbes();
     }
 
     @GetMapping("/probes/{probeId}")
     public Probe getProbe(@PathVariable int probeId) {
         // TODO: if returned probe is null, throw an exception
+
+
         return service.findProbeById(probeId);
     }
 

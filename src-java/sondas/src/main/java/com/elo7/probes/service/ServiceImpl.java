@@ -1,12 +1,10 @@
 package com.elo7.probes.service;
 
+import com.elo7.probes.api.NotFoundException;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
@@ -19,7 +17,7 @@ public class ServiceImpl implements Service {
 
     public ServiceImpl() {
         probes = new TreeMap<>();
-        plateau = new Plateau();
+        plateau = null;
         freeId = 1;
     }
 
@@ -30,19 +28,27 @@ public class ServiceImpl implements Service {
      * @return list of Probe objects in the Plateau
      */
     @Override
-    public List<Probe> findAllProbes() {
-        return new ArrayList<>(probes.values());
+    public Collection<Probe> findAllProbes() {
+        return probes.values();
     }
 
     @Override
     public Probe findProbeById(int probeId) {
         // TODO: Add exception for the case that probeId probe does not exist
+        if (!probes.containsKey(probeId)) {
+            throw new NotFoundException("Probe id not found - " + probeId);
+        }
+
         return probes.get(probeId);
     }
 
     @Override
     public Plateau findPlateau() {
         // TODO: Add exception for the case that the Plateau was not set yet
+        if (this.plateau == null) {
+            throw new NotFoundException("Plateau has not been set yet");
+        }
+
         return this.plateau;
     }
 

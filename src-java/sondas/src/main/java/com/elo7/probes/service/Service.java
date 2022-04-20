@@ -3,11 +3,11 @@ package com.elo7.probes.service;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface Service {
 
-    public List<Probe> findAllProbes();
+    public Collection<Probe> findAllProbes();
 
     public Probe findProbeById(int probeId);
 
