@@ -1,5 +1,6 @@
 package com.elo7.probes.api;
 
+import com.elo7.probes.domain.InstructionCommand;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.service.Service;
@@ -26,7 +27,7 @@ public class Controller {
         return service.findProbeById(probeId);
     }
 
-    @GetMapping("/plateau")
+    @GetMapping("/plateaus")
     public Plateau getPlateau() {
         return service.findPlateau();
     }
@@ -53,7 +54,7 @@ public class Controller {
         return probe;
     }
 
-    @PostMapping("/plateau")
+    @PostMapping("/plateaus")
     public Plateau post(@RequestBody Plateau plateau) {
         service.save(plateau);
 
@@ -62,13 +63,18 @@ public class Controller {
         return plateau;
     }
 
-    @PutMapping("/plateau")
+    @PutMapping("/plateaus")
     public Plateau put(@RequestBody Plateau plateau) {
         service.save(plateau);
 
         System.out.println("Plateau saved successfully");
 
         return plateau;
+    }
+
+    @PostMapping("/instructions/probes")
+    public Probe post(@RequestBody InstructionCommand instructionCommand) {
+        return service.execute(instructionCommand);
     }
 
     @DeleteMapping("/probes/{probeId}")
@@ -81,7 +87,7 @@ public class Controller {
         service.deleteAllProbes();
     }
 
-    @DeleteMapping("/plateau")
+    @DeleteMapping("/plateaus")
     public void deletePlateau() {
         service.deletePlateau();
     }

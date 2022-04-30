@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class RestExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(NotFoundException exc) {
+    public ResponseEntity<ErrorResponse> handleException(ObjectNotFoundException exc) {
 
         ErrorResponse error = new ErrorResponse();
 

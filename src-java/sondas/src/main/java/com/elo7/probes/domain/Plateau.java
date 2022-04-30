@@ -25,12 +25,12 @@ public class Plateau {
     /**
      * The maximum x-coordinate in the "Plateau".
      */
-    public final int maxX;
+    private int maxX;
 
      /**
      * The maximum y-coordinate in the "Plateau".
      */
-    public final int maxY;
+    private int maxY;
 
     private Location[][] locations;
 
@@ -74,6 +74,22 @@ public class Plateau {
         this.maxX = maxX;
         this.maxY = maxY;
         this.locations = locations;
+    }
+
+    public int getMaxX() {
+        return maxX;
+    }
+
+    public void setMaxX(int maxX) {
+        this.maxX = maxX;
+    }
+
+    public int getMaxY() {
+        return maxY;
+    }
+
+    public void setMaxY(int maxY) {
+        this.maxY = maxY;
     }
 
     public static int getDx(Direction direction) {

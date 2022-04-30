@@ -1,10 +1,14 @@
 package com.elo7.probes.service;
 
-import com.elo7.probes.api.NotFoundException;
+import com.elo7.probes.api.ObjectNotFoundException;
+import com.elo7.probes.domain.Instruction;
+import com.elo7.probes.domain.InstructionCommand;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
@@ -36,7 +40,7 @@ public class ServiceImpl implements Service {
     public Probe findProbeById(int probeId) {
         // TODO: Add exception for the case that probeId probe does not exist
         if (!probes.containsKey(probeId)) {
-            throw new NotFoundException("Probe id not found - " + probeId);
+            throw new ObjectNotFoundException("Probe id not found - " + probeId);
         }
 
         return probes.get(probeId);
@@ -46,7 +50,7 @@ public class ServiceImpl implements Service {
     public Plateau findPlateau() {
         // TODO: Add exception for the case that the Plateau was not set yet
         if (this.plateau == null) {
-            throw new NotFoundException("Plateau has not been set yet");
+            throw new ObjectNotFoundException("Plateau has not been set yet");
         }
 
         return this.plateau;
@@ -60,21 +64,13 @@ public class ServiceImpl implements Service {
      */
     @Override
     public void save(Probe probe) {
-        // TODO: Add exception for being unable to land since the space is not
-        //  free, or it is outside of current Plateau, or Plateau is not set yet
         //  TODO: Change the default constructor of plateau to be a null object,
         //      and then change the save method for plateau to check if the object
         //      is null
-        /*
-        String instructions = "MM";
-
-        for (int i = 0; i < instructions.length(); i++) {
-            System.out.println("Current instruction " + instructions.substring(i, i + 1));
-            probe.move(this.plateau, Instruction.valueOf(
-                    instructions.substring(i, i + 1)));
-        }*/
 
         if (probe.getId() == 0) { // Post since default probeId is always 0
+            // TODO: Exception for unable to land. The logic for landing should
+            //  be inside probe, not here.
             probe.setId(freeId);
             probes.put(freeId++, probe);
         } else { // Put
@@ -86,7 +82,23 @@ public class ServiceImpl implements Service {
     public void save(Plateau plateau) {
         // TODO: Need to check if it won't have probes outside it; in this
         //  case, it should throw an error
-        this.plateau = plateau;
+        // TODO 2 (crucial): change plateau for rectangle
+        this.plateau = new Plateau(plateau.getMaxX(), plateau.getMaxY());
+    }
+
+    @Override
+    public Probe execute(InstructionCommand instructionCommand) {
+        int probeId = instructionCommand.getId();
+        Probe probe = probes.get(probeId);
+
+        //probe.move(this.plateau, instructionCommand.getInstructions());
+
+        // Maybe this code should be inside Probe class by using polymorphism
+        for (Instruction instruction : instructionCommand.getInstructions()) {
+            probe.move(this.plateau, instruction);
+        }
+
+        return probe;
     }
 
     @Override

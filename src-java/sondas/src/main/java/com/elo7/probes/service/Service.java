@@ -1,5 +1,6 @@
 package com.elo7.probes.service;
 
+import com.elo7.probes.domain.InstructionCommand;
 import com.elo7.probes.domain.Plateau;
 import com.elo7.probes.domain.Probe;
 
@@ -16,6 +17,8 @@ public interface Service {
     public void save(Probe probe);
 
     public void save(Plateau plateau);
+
+    public Probe execute(InstructionCommand instructionCommand);
 
     public void deleteProbe(int probeId);
 
