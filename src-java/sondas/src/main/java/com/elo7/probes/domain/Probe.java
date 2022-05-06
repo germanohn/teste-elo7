@@ -4,11 +4,11 @@ import org.apache.commons.lang3.EnumUtils;
 
 /**
  * Probe is the class that models a "Probe" (in english probe) navigating
- * through a "Planalto" (in english plateau; see class <code>Planalto</code>).
+ * through a "Planalto" (in english region; see class <code>Planalto</code>).
  * <p>
  * It implements the three basic movements of such object: to move a Probe
  * object either to the left or to the right by 90°, or to move one unit, on
- * the plateau where it lies, in the cardinal direction in which it points.
+ * the region where it lies, in the cardinal direction in which it points.
  */
 public class Probe {
     private int id;
@@ -40,8 +40,8 @@ public class Probe {
         this.id = id;
     }
 
-    public void land(Plateau plateau) {
-        this.setOrientedPosition(plateau, this.orientedPosition);
+    public void land(Region region) {
+        this.setOrientedPosition(region, this.orientedPosition);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Probe {
      *
      * @param instruction the instruction to move the "Probe": 'L'; 'R'; 'M'.
      */
-    public void move(Plateau plateau, Instruction instruction) {
+    public void move(Region region, Instruction instruction) {
         System.out.println("Start of method move of Probe class, instruction " + instruction.toString());
         if (!EnumUtils.isValidEnum(Instruction.class, instruction.toString())) {
             System.out.println("Invalid instruction");
@@ -60,18 +60,19 @@ public class Probe {
                     this.orientedPosition.nextOrientedPosition();
 
             // Get response from set and return a message
-            this.setOrientedPosition(plateau, nextOrientedPosition);
+            this.setOrientedPosition(region, nextOrientedPosition);
         } else { // instruction == L or instruction == R
             orientedPosition.rotate(instruction);
         }
     }
 
-    private void setOrientedPosition(Plateau plateau, OrientedPosition orientedPosition) {
-        if (plateau.isPositionValid(orientedPosition.getPosition()) &&
-                plateau.isLocationFree(orientedPosition.getPosition())) {
+    private void setOrientedPosition(Region region, OrientedPosition orientedPosition) {
+        Position position = orientedPosition.getPosition();
+        if (region.isPositionInside(position) && region.isPositionFree(position)) {
             this.orientedPosition = orientedPosition;
+            return;
         }
-        this.orientedPosition = orientedPosition;
+        System.out.println("Cannot set this position; Position invalid for this region");
     }
 
     public void printProbe() {

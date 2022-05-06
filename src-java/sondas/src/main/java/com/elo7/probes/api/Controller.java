@@ -1,7 +1,7 @@
 package com.elo7.probes.api;
 
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Plateau;
+import com.elo7.probes.domain.Region;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.service.Service;
 import com.elo7.probes.service.ServiceImpl;
@@ -27,9 +27,9 @@ public class Controller {
         return service.findProbeById(probeId);
     }
 
-    @GetMapping("/plateaus")
-    public Plateau getPlateau() {
-        return service.findPlateau();
+    @GetMapping("/regions")
+    public Region getRegion() {
+        return service.findRegion();
     }
 
     @PostMapping("/probes")
@@ -54,22 +54,22 @@ public class Controller {
         return probe;
     }
 
-    @PostMapping("/plateaus")
-    public Plateau post(@RequestBody Plateau plateau) {
-        service.save(plateau);
+    @PostMapping("/regions")
+    public Region post(@RequestBody Region region) {
+        service.save(region);
 
-        System.out.println("Plateau saved successfully");
+        System.out.println("Region saved successfully");
 
-        return plateau;
+        return region;
     }
 
-    @PutMapping("/plateaus")
-    public Plateau put(@RequestBody Plateau plateau) {
-        service.save(plateau);
+    @PutMapping("/regions")
+    public Region put(@RequestBody Region region) {
+        service.save(region);
 
-        System.out.println("Plateau saved successfully");
+        System.out.println("Region saved successfully");
 
-        return plateau;
+        return region;
     }
 
     @PostMapping("/instructions/probes")
@@ -87,8 +87,8 @@ public class Controller {
         service.deleteAllProbes();
     }
 
-    @DeleteMapping("/plateaus")
-    public void deletePlateau() {
-        service.deletePlateau();
+    @DeleteMapping("/regions")
+    public void deleteRegion() {
+        service.deleteRegion();
     }
 }

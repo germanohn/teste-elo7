@@ -1,7 +1,7 @@
 package com.elo7.probes.service;
 
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Plateau;
+import com.elo7.probes.domain.Region;
 import com.elo7.probes.domain.Probe;
 
 import java.util.Collection;
@@ -12,11 +12,11 @@ public interface Service {
 
     public Probe findProbeById(int probeId);
 
-    public Plateau findPlateau();
+    public Region findRegion();
 
     public void save(Probe probe);
 
-    public void save(Plateau plateau);
+    public void save(Region region);
 
     public Probe execute(InstructionCommand instructionCommand);
 
@@ -24,5 +24,5 @@ public interface Service {
 
     public void deleteAllProbes();
 
-    public void deletePlateau();
+    public void deleteRegion();
 }

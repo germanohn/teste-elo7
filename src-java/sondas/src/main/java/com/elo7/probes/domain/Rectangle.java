@@ -18,7 +18,7 @@ public class Rectangle implements Shape {
     }
 
     @Override
-    public boolean isInside(Position position) {
+    public boolean isPositionInside(Position position) {
         return this.isXCoordinateValid(position.getX()) &&
                 this.isYCoordinateValid(position.getY());
     }

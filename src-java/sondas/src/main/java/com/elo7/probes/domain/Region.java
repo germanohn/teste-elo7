@@ -22,6 +22,10 @@ public class Region {
         this.positionStatus = positionStatus;
     }
 
+    public boolean isPositionInside(Position position) {
+        return this.shape.isPositionInside(position);
+    }
+
     public void changeShape(Shape shape) {
         this.shape = shape;
     }

@@ -3,7 +3,7 @@ package com.elo7.probes.service;
 import com.elo7.probes.api.ObjectNotFoundException;
 import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Plateau;
+import com.elo7.probes.domain.Region;
 import com.elo7.probes.domain.Probe;
 
 import java.util.Collection;
@@ -12,24 +12,24 @@ import java.util.TreeMap;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
- * the Plateau properties.
+ * the Region properties.
  */
 public class ServiceImpl implements Service {
     private Map<Integer, Probe> probes;
-    private Plateau plateau; // default is null
+    private Region region; // default is null
     private int freeId;
 
     public ServiceImpl() {
         probes = new TreeMap<>();
-        plateau = null;
+        region = null;
         freeId = 1;
     }
 
     /**
      * Gets the list of Probe objects, namely probes, that exist in the
-     * Plateau so far.
+     * Region so far.
      *
-     * @return list of Probe objects in the Plateau
+     * @return list of Probe objects in the Region
      */
     @Override
     public Collection<Probe> findAllProbes() {
@@ -47,13 +47,13 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Plateau findPlateau() {
-        // TODO: Add exception for the case that the Plateau was not set yet
-        if (this.plateau == null) {
-            throw new ObjectNotFoundException("Plateau has not been set yet");
+    public Region findRegion() {
+        // TODO: Add exception for the case that the Region was not set yet
+        if (this.region == null) {
+            throw new ObjectNotFoundException("Region has not been set yet");
         }
 
-        return this.plateau;
+        return this.region;
     }
 
     /**
@@ -64,15 +64,15 @@ public class ServiceImpl implements Service {
      */
     @Override
     public void save(Probe probe) {
-        //  TODO: Change the default constructor of plateau to be a null object,
-        //      and then change the save method for plateau to check if the object
+        //  TODO: Change the default constructor of region to be a null object,
+        //      and then change the save method for region to check if the object
         //      is null
 
         if (probe.getId() == 0) { // Post since default probeId is always 0
             // TODO: Exception for unable to land. The logic for landing should
             //  be inside probe, not here.
             probe.setId(freeId);
-            probe.land(this.plateau);
+            probe.land(this.region);
             probes.put(freeId++, probe);
         } else { // Put
             probes.put(probe.getId(), probe);
@@ -80,11 +80,11 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void save(Plateau plateau) {
+    public void save(Region region) {
         // TODO: Need to check if it won't have probes outside it; in this
         //  case, it should throw an error
-        // TODO 2 (crucial): change plateau for rectangle
-        this.plateau = new Plateau(plateau.getMaxX(), plateau.getMaxY());
+        // TODO 2 (crucial): change region for rectangle
+        this.region = region;
     }
 
     @Override
@@ -92,11 +92,11 @@ public class ServiceImpl implements Service {
         int probeId = instructionCommand.getId();
         Probe probe = probes.get(probeId);
 
-        //probe.move(this.plateau, instructionCommand.getInstructions());
+        //probe.move(this.region, instructionCommand.getInstructions());
 
         // Maybe this code should be inside Probe class by using polymorphism
         for (Instruction instruction : instructionCommand.getInstructions()) {
-            probe.move(this.plateau, instruction);
+            probe.move(this.region, instruction);
         }
 
         return probe;
@@ -118,8 +118,8 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void deletePlateau() {
-        // TODO: Add exception when plateau was not set yet
-        plateau = null;
+    public void deleteRegion() {
+        // TODO: Add exception when region was not set yet
+        this.region = null;
     }
 }
