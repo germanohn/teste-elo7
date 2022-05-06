@@ -40,21 +40,8 @@ public class Probe {
         this.id = id;
     }
 
-    /**
-     * Gets the oriented position of the Probe object
-     *
-     * @return the oriented position of the object
-     */
-    public OrientedPosition getOrientedPosition() {
-        return orientedPosition;
-    }
-
-    public void setOrientedPosition(Plateau plateau, OrientedPosition orientedPosition) {
-        if (plateau.isPositionValid(orientedPosition.getPosition()) &&
-                plateau.isLocationFree(orientedPosition.getPosition())) {
-            this.orientedPosition = orientedPosition;
-        }
-        this.orientedPosition = orientedPosition;
+    public void land(Plateau plateau) {
+        this.setOrientedPosition(plateau, this.orientedPosition);
     }
 
     /**
@@ -71,11 +58,20 @@ public class Probe {
         } else if (instruction.equals(Instruction.M)) {
             OrientedPosition nextOrientedPosition =
                     this.orientedPosition.nextOrientedPosition();
+
             // Get response from set and return a message
             this.setOrientedPosition(plateau, nextOrientedPosition);
         } else { // instruction == L or instruction == R
             orientedPosition.rotate(instruction);
         }
+    }
+
+    private void setOrientedPosition(Plateau plateau, OrientedPosition orientedPosition) {
+        if (plateau.isPositionValid(orientedPosition.getPosition()) &&
+                plateau.isLocationFree(orientedPosition.getPosition())) {
+            this.orientedPosition = orientedPosition;
+        }
+        this.orientedPosition = orientedPosition;
     }
 
     public void printProbe() {

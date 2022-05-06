@@ -72,6 +72,7 @@ public class ServiceImpl implements Service {
             // TODO: Exception for unable to land. The logic for landing should
             //  be inside probe, not here.
             probe.setId(freeId);
+            probe.land(this.plateau);
             probes.put(freeId++, probe);
         } else { // Put
             probes.put(probe.getId(), probe);
