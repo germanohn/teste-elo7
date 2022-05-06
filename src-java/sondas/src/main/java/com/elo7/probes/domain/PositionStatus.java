@@ -1,6 +1,6 @@
 package com.elo7.probes.domain;
 
-public enum Location {
+public enum PositionStatus {
     F, // Free
     P, // Probe
     O  // Obstacle
