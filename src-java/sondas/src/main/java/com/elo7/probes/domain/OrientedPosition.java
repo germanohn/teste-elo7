@@ -49,8 +49,10 @@ public class OrientedPosition {
      */
     public OrientedPosition nextOrientedPosition() {
         Position nextPosition =
-                new Position(position.getX() + Plateau.getDx(direction),
-                             position.getY() + Plateau.getDy(direction));
+                new Position(position.getX() +
+                        TwoDimensionalCartesianCoordinateSystem.getDx(direction),
+                             position.getY() +
+                         TwoDimensionalCartesianCoordinateSystem.getDy(direction));
         return new OrientedPosition(nextPosition, direction);
     }
 

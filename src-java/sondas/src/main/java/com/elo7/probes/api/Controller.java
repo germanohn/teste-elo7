@@ -43,28 +43,8 @@ public class Controller {
         return probe;
     }
 
-    @PutMapping("/probes")
-    public Probe put(@RequestBody Probe probe) {
-        System.out.println("Receive Probe:");
-        probe.printProbe();
-        System.out.println();
-
-        service.save(probe);
-
-        return probe;
-    }
-
     @PostMapping("/regions")
     public Region post(@RequestBody Region region) {
-        service.save(region);
-
-        System.out.println("Region saved successfully");
-
-        return region;
-    }
-
-    @PutMapping("/regions")
-    public Region put(@RequestBody Region region) {
         service.save(region);
 
         System.out.println("Region saved successfully");

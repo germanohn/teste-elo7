@@ -40,8 +40,27 @@ public class Probe {
         this.id = id;
     }
 
-    public void land(Region region) {
-        this.setOrientedPosition(region, this.orientedPosition);
+    public OrientedPosition getOrientedPosition() {
+        return orientedPosition;
+    }
+
+    public void setOrientedPosition(OrientedPosition orientedPosition) {
+        this.orientedPosition = orientedPosition;
+    }
+
+    public boolean setOrientedPosition(Region region, OrientedPosition orientedPosition) {
+        Position position = orientedPosition.getPosition();
+        if (region.isPositionInside(position) && region.isPositionFree(position)) {
+            this.orientedPosition = orientedPosition;
+            region.setPositionStatus(position, PositionStatus.Probe);
+            return true;
+        }
+        System.out.println("Cannot set this position; Position invalid for this region");
+        return false;
+    }
+
+    public boolean land(Region region) {
+        return this.setOrientedPosition(region, this.orientedPosition);
     }
 
     /**
@@ -66,13 +85,11 @@ public class Probe {
         }
     }
 
-    private void setOrientedPosition(Region region, OrientedPosition orientedPosition) {
-        Position position = orientedPosition.getPosition();
-        if (region.isPositionInside(position) && region.isPositionFree(position)) {
-            this.orientedPosition = orientedPosition;
-            return;
+    public void move(Region region, Instruction[] instructions) {
+        System.out.println("Start of method move of Probe class, multiple instructions ");
+        for (Instruction instruction : instructions) {
+            this.move(region, instruction);
         }
-        System.out.println("Cannot set this position; Position invalid for this region");
     }
 
     public void printProbe() {

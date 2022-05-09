@@ -18,7 +18,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int maxX = scanner.nextInt();
         int maxY = scanner.nextInt();
-        Plateau plateau = new Plateau(maxX, maxY);
+        Region region = new Region(1, new Rectangle(0, maxX, 0, maxY));
 
         while (scanner.hasNext()) {
             int x = scanner.nextInt();
@@ -30,7 +30,7 @@ public class Main {
             scanner.nextLine();
             String instructions = scanner.nextLine();
             for (int i = 0; i < instructions.length(); i++) {
-                probe.move(plateau, Instruction.valueOf(
+                probe.move(region, Instruction.valueOf(
                         instructions.substring(i, i + 1)));
             }
 

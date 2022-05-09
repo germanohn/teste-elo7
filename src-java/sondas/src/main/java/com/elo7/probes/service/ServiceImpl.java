@@ -1,10 +1,9 @@
 package com.elo7.probes.service;
 
 import com.elo7.probes.api.ObjectNotFoundException;
-import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Region;
 import com.elo7.probes.domain.Probe;
+import com.elo7.probes.domain.Region;
 
 import java.util.Collection;
 import java.util.Map;
@@ -72,10 +71,9 @@ public class ServiceImpl implements Service {
             // TODO: Exception for unable to land. The logic for landing should
             //  be inside probe, not here.
             probe.setId(freeId);
-            probe.land(this.region);
-            probes.put(freeId++, probe);
-        } else { // Put
-            probes.put(probe.getId(), probe);
+            if (probe.land(this.region)) {
+                probes.put(freeId++, probe);
+            }
         }
     }
 
@@ -92,12 +90,7 @@ public class ServiceImpl implements Service {
         int probeId = instructionCommand.getId();
         Probe probe = probes.get(probeId);
 
-        //probe.move(this.region, instructionCommand.getInstructions());
-
-        // Maybe this code should be inside Probe class by using polymorphism
-        for (Instruction instruction : instructionCommand.getInstructions()) {
-            probe.move(this.region, instruction);
-        }
+        probe.move(this.region, instructionCommand.getInstructions());
 
         return probe;
     }
