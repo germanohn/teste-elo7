@@ -1,6 +1,6 @@
 package com.elo7.probes.service;
 
-import com.elo7.probes.domain.InstructionCommand;
+import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.dto.ProbeDto;
 import com.elo7.probes.dto.RegionDto;
 import com.elo7.probes.form.ProbeForm;
@@ -16,11 +16,11 @@ public interface Service {
 
     public RegionDto findRegion();
 
-    public void save(ProbeForm probeForm);
+    public ProbeDto save(ProbeForm probeForm);
 
-    public void save(RegionForm regionForm  );
+    public RegionDto save(RegionForm regionForm);
 
-    public ProbeDto execute(InstructionCommand instructionCommand);
+    public ProbeDto execute(int probeId, Instruction[] instructions);
 
     public void deleteProbe(int probeId);
 

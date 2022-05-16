@@ -1,6 +1,6 @@
 package com.elo7.probes.service;
 
-import com.elo7.probes.domain.InstructionCommand;
+import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.domain.Region;
 import com.elo7.probes.dto.ProbeDto;
@@ -65,26 +65,27 @@ public class ServiceImpl implements Service {
      * @return
      */
     @Override
-    public void save(ProbeForm probeForm) { // probe.getId() is always 0, because it is landing
+    public ProbeDto save(ProbeForm probeForm) { // probe.getId() is always 0, because it is landing
         Probe probe = probeForm.convertToProbe();
         probe.land(this.region);
         probe.setId(freeId);
         probes.put(freeId++, probe);
+        return new ProbeDto(probe);
     }
 
     @Override
-    public void save(RegionForm regionForm) {
+    public RegionDto save(RegionForm regionForm) {
         // TODO: Need to check if it won't have probes outside it; in this
         //  case, it should throw an error
         this.region = regionForm.convertToRegion();
+        return new RegionDto(this.region);
     }
 
     @Override
-    public ProbeDto execute(InstructionCommand instructionCommand) {
-        int probeId = instructionCommand.getId();
+    public ProbeDto execute(int probeId, Instruction[] instructions) {
         Probe probe = probes.get(probeId);
 
-        probe.move(this.region, instructionCommand.getInstructions());
+        probe.move(this.region, instructions);
 
         return new ProbeDto(probe);
     }

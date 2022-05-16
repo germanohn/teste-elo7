@@ -1,6 +1,6 @@
 package com.elo7.probes.api;
 
-import com.elo7.probes.domain.InstructionCommand;
+import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.dto.ProbeDto;
 import com.elo7.probes.dto.RegionDto;
 import com.elo7.probes.form.ProbeForm;
@@ -18,7 +18,6 @@ public class Controller {
 
     @GetMapping("/probes")
     public List<ProbeDto> findAllProbes() {
-
         return service.findAllProbes();
     }
 
@@ -34,21 +33,17 @@ public class Controller {
 
     @PostMapping("/probes")
     public ProbeDto post(@RequestBody ProbeForm probeForm) {
-        service.save(probeForm);
-
-        return new ProbeDto(probeForm.convertToProbe());
+        return service.save(probeForm);
     }
 
     @PostMapping("/regions")
     public RegionDto post(@RequestBody RegionForm regionForm) {
-        service.save(regionForm);
-
-        return new RegionDto(regionForm.convertToRegion());
+        return service.save(regionForm);
     }
 
-    @PostMapping("/instructions/probes")
-    public ProbeDto post(@RequestBody InstructionCommand instructionCommand) {
-        return service.execute(instructionCommand);
+    @PostMapping("/instructions/probes/{probeId}")
+    public ProbeDto post(@PathVariable int probeId, @RequestBody Instruction instructions[]) {
+        return service.execute(probeId, instructions);
     }
 
     @DeleteMapping("/probes/{probeId}")

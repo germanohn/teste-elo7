@@ -63,7 +63,6 @@ public class Probe {
         }
 
         this.orientedPosition = orientedPosition;
-        region.fillPosition(position, PositionStatus.Probe);
     }
 
     public void land(Region region) {
@@ -78,13 +77,14 @@ public class Probe {
      * @param instruction the instruction to move the "Probe": 'L'; 'R'; 'M'.
      */
     public void move(Region region, Instruction instruction) {
-        System.out.println("Start of method move of Probe class, instruction " + instruction.toString());
         if (instruction.equals(Instruction.M)) {
             OrientedPosition nextOrientedPosition =
                     this.orientedPosition.nextOrientedPosition();
 
-            // Get response from set and return a message
             this.setOrientedPosition(region, nextOrientedPosition);
+
+            region.freePosition(this.orientedPosition.getPosition());
+            region.fillPosition(nextOrientedPosition.getPosition(), PositionStatus.Probe);
         } else { // instruction == L or instruction == R
             orientedPosition.rotate(instruction);
         }
