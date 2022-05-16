@@ -1,6 +1,7 @@
 package com.elo7.probes.domain;
 
-import org.apache.commons.lang3.EnumUtils;
+import com.elo7.probes.exception.EntityNotFoundException;
+import com.elo7.probes.exception.MovementException;
 
 /**
  * Probe is the class that models a "Probe" (in english probe) navigating
@@ -33,7 +34,7 @@ public class Probe {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -44,23 +45,29 @@ public class Probe {
         return orientedPosition;
     }
 
-    public void setOrientedPosition(OrientedPosition orientedPosition) {
-        this.orientedPosition = orientedPosition;
-    }
-
-    public boolean setOrientedPosition(Region region, OrientedPosition orientedPosition) {
-        Position position = orientedPosition.getPosition();
-        if (region.isPositionInside(position) && region.isPositionFree(position)) {
-            this.orientedPosition = orientedPosition;
-            region.setPositionStatus(position, PositionStatus.Probe);
-            return true;
+    public void setOrientedPosition(Region region, OrientedPosition orientedPosition) {
+        if (region == null) {
+            throw new EntityNotFoundException("Region not found");
         }
-        System.out.println("Cannot set this position; Position invalid for this region");
-        return false;
+
+        Position position = orientedPosition.getPosition();
+        if (!region.isPositionInside(position)) {
+            throw new MovementException("Position (" + position.getX() + ", " +
+                    position.getY() + ") is invalid in region");
+        }
+
+        if (!region.isPositionFree(position)) {
+            throw new MovementException("Position (" + position.getX() + ", " +
+                    position.getY() + ") already occupied with " +
+                    region.getPositionStatusIn(position).name());
+        }
+
+        this.orientedPosition = orientedPosition;
+        region.fillPosition(position, PositionStatus.Probe);
     }
 
-    public boolean land(Region region) {
-        return this.setOrientedPosition(region, this.orientedPosition);
+    public void land(Region region) {
+        this.setOrientedPosition(region, this.orientedPosition);
     }
 
     /**
@@ -72,9 +79,7 @@ public class Probe {
      */
     public void move(Region region, Instruction instruction) {
         System.out.println("Start of method move of Probe class, instruction " + instruction.toString());
-        if (!EnumUtils.isValidEnum(Instruction.class, instruction.toString())) {
-            System.out.println("Invalid instruction");
-        } else if (instruction.equals(Instruction.M)) {
+        if (instruction.equals(Instruction.M)) {
             OrientedPosition nextOrientedPosition =
                     this.orientedPosition.nextOrientedPosition();
 

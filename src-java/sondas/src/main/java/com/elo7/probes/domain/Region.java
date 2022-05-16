@@ -37,15 +37,27 @@ public class Region {
         this.positionStatus = positionStatus;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public Shape getShape() {
         return shape;
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
+    public PositionStatus getPositionStatusIn(Position position) {
+        return positionStatus.get(position);
     }
 
-    public void setPositionStatus(Position position, PositionStatus positionStatus) {
+    public void freePosition(Position position) {
+        this.positionStatus.remove(position);
+    }
+
+    public void freeAllPositions() {
+        this.positionStatus.clear();
+    }
+
+    public void fillPosition(Position position, PositionStatus positionStatus) {
         this.positionStatus.put(position, positionStatus);
     }
 
@@ -58,7 +70,6 @@ public class Region {
     }
 
     public boolean isPositionFree(Position position) {
-        return !positionStatus.containsKey(position) ||
-                PositionStatus.Free.equals(positionStatus.get(position));
+        return !positionStatus.containsKey(position);
     }
 }

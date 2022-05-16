@@ -1,13 +1,15 @@
 package com.elo7.probes.api;
 
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Region;
-import com.elo7.probes.domain.Probe;
+import com.elo7.probes.dto.ProbeDto;
+import com.elo7.probes.dto.RegionDto;
+import com.elo7.probes.form.ProbeForm;
+import com.elo7.probes.form.RegionForm;
 import com.elo7.probes.service.Service;
 import com.elo7.probes.service.ServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -15,45 +17,37 @@ public class Controller {
     private Service service = new ServiceImpl();
 
     @GetMapping("/probes")
-    public Collection<Probe> findAllProbes() {
+    public List<ProbeDto> findAllProbes() {
+
         return service.findAllProbes();
     }
 
     @GetMapping("/probes/{probeId}")
-    public Probe getProbe(@PathVariable int probeId) {
-        // TODO: if returned probe is null, throw an exception
-
-
+    public ProbeDto getProbe(@PathVariable int probeId) {
         return service.findProbeById(probeId);
     }
 
     @GetMapping("/regions")
-    public Region getRegion() {
+    public RegionDto getRegion() {
         return service.findRegion();
     }
 
     @PostMapping("/probes")
-    public Probe post(@RequestBody Probe probe) {
-        System.out.println("Receive Probe:");
-        probe.printProbe();
-        System.out.println();
+    public ProbeDto post(@RequestBody ProbeForm probeForm) {
+        service.save(probeForm);
 
-        service.save(probe);
-
-        return probe;
+        return new ProbeDto(probeForm.convertToProbe());
     }
 
     @PostMapping("/regions")
-    public Region post(@RequestBody Region region) {
-        service.save(region);
+    public RegionDto post(@RequestBody RegionForm regionForm) {
+        service.save(regionForm);
 
-        System.out.println("Region saved successfully");
-
-        return region;
+        return new RegionDto(regionForm.convertToRegion());
     }
 
     @PostMapping("/instructions/probes")
-    public Probe post(@RequestBody InstructionCommand instructionCommand) {
+    public ProbeDto post(@RequestBody InstructionCommand instructionCommand) {
         return service.execute(instructionCommand);
     }
 

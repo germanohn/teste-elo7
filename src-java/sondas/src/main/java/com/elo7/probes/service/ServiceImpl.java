@@ -1,13 +1,18 @@
 package com.elo7.probes.service;
 
-import com.elo7.probes.api.ObjectNotFoundException;
 import com.elo7.probes.domain.InstructionCommand;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.domain.Region;
+import com.elo7.probes.dto.ProbeDto;
+import com.elo7.probes.dto.RegionDto;
+import com.elo7.probes.exception.EntityNotFoundException;
+import com.elo7.probes.form.ProbeForm;
+import com.elo7.probes.form.RegionForm;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Class to keep, retrieve, and update the list of Probe objects, and to set
@@ -28,91 +33,81 @@ public class ServiceImpl implements Service {
      * Gets the list of Probe objects, namely probes, that exist in the
      * Region so far.
      *
-     * @return list of Probe objects in the Region
+     * @return list of Probe objects, possibly empty, in the Region.
      */
     @Override
-    public Collection<Probe> findAllProbes() {
-        return probes.values();
+    public List<ProbeDto> findAllProbes() {
+        return probes.values().stream().map(probe -> new ProbeDto(probe)).collect(Collectors.toList());
     }
 
     @Override
-    public Probe findProbeById(int probeId) {
-        // TODO: Add exception for the case that probeId probe does not exist
+    public ProbeDto findProbeById(int probeId) {
         if (!probes.containsKey(probeId)) {
-            throw new ObjectNotFoundException("Probe id not found - " + probeId);
+            throw new EntityNotFoundException("Probe with id " + probeId + " not found");
         }
 
-        return probes.get(probeId);
+        return new ProbeDto(probes.get(probeId));
     }
 
     @Override
-    public Region findRegion() {
-        // TODO: Add exception for the case that the Region was not set yet
+    public RegionDto findRegion() {
         if (this.region == null) {
-            throw new ObjectNotFoundException("Region has not been set yet");
+            throw new EntityNotFoundException("Region not set");
         }
 
-        return this.region;
+        return new RegionDto(this.region);
     }
 
     /**
      * Overloaded save method that just receive the probe and executed a
      * hardcoded String of instructions.
-     * @param probe
+     * @param probeForm
      * @return
      */
     @Override
-    public void save(Probe probe) {
-        //  TODO: Change the default constructor of region to be a null object,
-        //      and then change the save method for region to check if the object
-        //      is null
-
-        if (probe.getId() == 0) { // Post since default probeId is always 0
-            // TODO: Exception for unable to land. The logic for landing should
-            //  be inside probe, not here.
-            probe.setId(freeId);
-            if (probe.land(this.region)) {
-                probes.put(freeId++, probe);
-            }
-        }
+    public void save(ProbeForm probeForm) { // probe.getId() is always 0, because it is landing
+        Probe probe = probeForm.convertToProbe();
+        probe.land(this.region);
+        probe.setId(freeId);
+        probes.put(freeId++, probe);
     }
 
     @Override
-    public void save(Region region) {
+    public void save(RegionForm regionForm) {
         // TODO: Need to check if it won't have probes outside it; in this
         //  case, it should throw an error
-        // TODO 2 (crucial): change region for rectangle
-        this.region = region;
+        this.region = regionForm.convertToRegion();
     }
 
     @Override
-    public Probe execute(InstructionCommand instructionCommand) {
+    public ProbeDto execute(InstructionCommand instructionCommand) {
         int probeId = instructionCommand.getId();
         Probe probe = probes.get(probeId);
 
         probe.move(this.region, instructionCommand.getInstructions());
 
-        return probe;
+        return new ProbeDto(probe);
     }
 
     @Override
     public void deleteProbe(int probeId) {
-        // TODO: Add exception for non-existence of probe with probeId in
-        //  probes
-        probes.remove(probeId);
+        if (!probes.containsKey(probeId)) {
+            throw new EntityNotFoundException("Probe with id " + probeId + " not found");
+        }
+        this.region.freePosition(probes.get(probeId).getOrientedPosition().getPosition());
+        this.probes.remove(probeId);
     }
 
     @Override
     public void deleteAllProbes() {
-        // TODO: Add exception for empty probes
         // TODO: It has to update the maximum coordinates of probes seen in
-        //  the current so far
-        probes.clear();
+        //  the current region so far
+        this.region.freeAllPositions();
+        this.probes.clear();
     }
 
     @Override
     public void deleteRegion() {
-        // TODO: Add exception when region was not set yet
         this.region = null;
     }
 }

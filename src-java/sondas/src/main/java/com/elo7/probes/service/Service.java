@@ -1,24 +1,26 @@
 package com.elo7.probes.service;
 
 import com.elo7.probes.domain.InstructionCommand;
-import com.elo7.probes.domain.Region;
-import com.elo7.probes.domain.Probe;
+import com.elo7.probes.dto.ProbeDto;
+import com.elo7.probes.dto.RegionDto;
+import com.elo7.probes.form.ProbeForm;
+import com.elo7.probes.form.RegionForm;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface Service {
 
-    public Collection<Probe> findAllProbes();
+    public List<ProbeDto> findAllProbes();
 
-    public Probe findProbeById(int probeId);
+    public ProbeDto findProbeById(int probeId);
 
-    public Region findRegion();
+    public RegionDto findRegion();
 
-    public void save(Probe probe);
+    public void save(ProbeForm probeForm);
 
-    public void save(Region region);
+    public void save(RegionForm regionForm  );
 
-    public Probe execute(InstructionCommand instructionCommand);
+    public ProbeDto execute(InstructionCommand instructionCommand);
 
     public void deleteProbe(int probeId);
 
