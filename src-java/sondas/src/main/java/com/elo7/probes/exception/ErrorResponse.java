@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class ErrorResponse {
 
     private HttpStatus status;
-    private String message;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timeStamp;
+    private String message;
+    private List<String> details;
 
     public ErrorResponse() {
         this.timeStamp = LocalDateTime.now();
@@ -27,10 +30,18 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public ErrorResponse(HttpStatus status, String message, LocalDateTime timeStamp) {
+    public ErrorResponse(HttpStatus status, String message, List<String> details) {
+        this();
         this.status = status;
         this.message = message;
-        this.timeStamp = timeStamp;
+        this.details = details;
+    }
+
+    public ErrorResponse(HttpStatus status, String message, String detail) {
+        this();
+        this.status = status;
+        this.message = message;
+        this.details = Arrays.asList(detail);
     }
 
     public HttpStatus getStatus() {
@@ -41,6 +52,14 @@ public class ErrorResponse {
         this.status = status;
     }
 
+    public LocalDateTime getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -49,11 +68,11 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
+    public List<String> getDetails() {
+        return details;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setDetails(List<String> details) {
+        this.details = details;
     }
 }
