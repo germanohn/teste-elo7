@@ -5,6 +5,7 @@ public class Rectangle implements Shape {
     private double maxX;
     private double minY;
     private double maxY;
+    private static final String name = "rectangle";
 
     public Rectangle() {
 
@@ -17,36 +18,25 @@ public class Rectangle implements Shape {
         this.maxY = maxY;
     }
 
-    public double getMinX() {
-        return minX;
+    @Override
+    public String getName() {
+        return Rectangle.name;
     }
 
-    public void setMinX(double minX) {
-        this.minX = minX;
+    public double getMinX() {
+        return minX;
     }
 
     public double getMaxX() {
         return maxX;
     }
 
-    public void setMaxX(double maxX) {
-        this.maxX = maxX;
-    }
-
     public double getMinY() {
         return minY;
     }
 
-    public void setMinY(double minY) {
-        this.minY = minY;
-    }
-
     public double getMaxY() {
         return maxY;
-    }
-
-    public void setMaxY(double maxY) {
-        this.maxY = maxY;
     }
 
     @Override

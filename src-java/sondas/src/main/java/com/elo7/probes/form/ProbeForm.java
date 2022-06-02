@@ -5,17 +5,21 @@ import com.elo7.probes.domain.OrientedPosition;
 import com.elo7.probes.domain.Position;
 import com.elo7.probes.domain.Probe;
 
-public class ProbeForm {
+import javax.validation.constraints.NotNull;
 
-    private double x;
-    private double y;
+public class ProbeForm {
+    @NotNull
+    private Double x;
+    @NotNull
+    private Double y;
+    @NotNull
     private Direction direction;
 
-    public void setX(double x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(Double y) {
         this.y = y;
     }
 

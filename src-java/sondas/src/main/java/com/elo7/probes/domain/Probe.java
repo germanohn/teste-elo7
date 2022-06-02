@@ -66,7 +66,9 @@ public class Probe {
     }
 
     public void land(Region region) {
+
         this.setOrientedPosition(region, this.orientedPosition);
+        region.fillPosition(this.orientedPosition.getPosition(), PositionStatus.Probe);
     }
 
     /**

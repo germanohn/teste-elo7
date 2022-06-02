@@ -13,5 +13,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = Circle.class, name = "circle")
 })
 public interface Shape {
-    boolean isPositionInside(Position position);
+    public String getName();
+    public boolean isPositionInside(Position position);
 }

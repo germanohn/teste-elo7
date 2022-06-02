@@ -2,13 +2,14 @@ package com.elo7.probes.api;
 
 import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.dto.ProbeDto;
-import com.elo7.probes.dto.RegionDto;
+import com.elo7.probes.dto.ShapeDto;
 import com.elo7.probes.form.ProbeForm;
-import com.elo7.probes.form.RegionForm;
 import com.elo7.probes.service.Service;
 import com.elo7.probes.service.ServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -22,32 +23,32 @@ public class Controller {
     }
 
     @GetMapping("/probes/{probeId}")
-    public ProbeDto getProbe(@PathVariable int probeId) {
+    public ProbeDto getProbe(@Positive @PathVariable int probeId) {
         return service.findProbeById(probeId);
     }
 
     @GetMapping("/regions")
-    public RegionDto getRegion() {
+    public ShapeDto getRegion() {
         return service.findRegion();
     }
 
     @PostMapping("/probes")
-    public ProbeDto post(@RequestBody ProbeForm probeForm) {
+    public ProbeDto post(@Valid @RequestBody ProbeForm probeForm) {
         return service.save(probeForm);
     }
 
     @PostMapping("/regions")
-    public RegionDto post(@RequestBody RegionForm regionForm) {
-        return service.save(regionForm);
+    public ShapeDto post(@Valid @RequestBody ShapeDto shapeDto) {
+        return service.save(shapeDto);
     }
 
     @PostMapping("/instructions/probes/{probeId}")
-    public ProbeDto post(@PathVariable int probeId, @RequestBody Instruction instructions[]) {
+    public ProbeDto post(@Positive @PathVariable int probeId, @Valid @RequestBody Instruction instructions[]) {
         return service.execute(probeId, instructions);
     }
 
     @DeleteMapping("/probes/{probeId}")
-    public void deleteProbe(@PathVariable int probeId) {
+    public void deleteProbe(@Positive @PathVariable int probeId) {
         service.deleteProbe(probeId);
     }
 

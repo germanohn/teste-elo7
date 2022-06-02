@@ -71,6 +71,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.2.2</version>
 		</dependency>
+
+		<!-- Bean Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

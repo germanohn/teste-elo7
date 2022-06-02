@@ -4,10 +4,9 @@ import com.elo7.probes.domain.Instruction;
 import com.elo7.probes.domain.Probe;
 import com.elo7.probes.domain.Region;
 import com.elo7.probes.dto.ProbeDto;
-import com.elo7.probes.dto.RegionDto;
+import com.elo7.probes.dto.ShapeDto;
 import com.elo7.probes.exception.EntityNotFoundException;
 import com.elo7.probes.form.ProbeForm;
-import com.elo7.probes.form.RegionForm;
 
 import java.util.List;
 import java.util.Map;
@@ -50,12 +49,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public RegionDto findRegion() {
+    public ShapeDto findRegion() {
         if (this.region == null) {
             throw new EntityNotFoundException("Region not set");
         }
 
-        return new RegionDto(this.region);
+        return ShapeDto.convertFromShape(this.region.getShape());
     }
 
     /**
@@ -74,11 +73,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public RegionDto save(RegionForm regionForm) {
+    public ShapeDto save(ShapeDto shapeDto) {
         // TODO: Need to check if it won't have probes outside it; in this
         //  case, it should throw an error
-        this.region = regionForm.convertToRegion();
-        return new RegionDto(this.region);
+        this.region = new Region(shapeDto.convertToShape());
+
+        return shapeDto;
     }
 
     @Override

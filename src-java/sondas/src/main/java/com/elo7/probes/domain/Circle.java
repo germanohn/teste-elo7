@@ -3,6 +3,7 @@ package com.elo7.probes.domain;
 public class Circle implements Shape {
     private Position centre;
     private double radius;
+    private static final String name = "circle";
 
     public Circle() {
 
@@ -17,16 +18,13 @@ public class Circle implements Shape {
         return centre;
     }
 
-    public void setCentre(Position centre) {
-        this.centre = centre;
-    }
-
     public double getRadius() {
         return radius;
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
+    @Override
+    public String getName() {
+        return Circle.name;
     }
 
     @Override

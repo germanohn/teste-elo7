@@ -42,7 +42,7 @@ public class Region {
     }
 
     public Shape getShape() {
-        return shape;
+        return this.shape;
     }
 
     public PositionStatus getPositionStatusIn(Position position) {
